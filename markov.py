@@ -1,6 +1,10 @@
 """Generate Markov text from text files."""
 
+from asyncio import new_event_loop
 from random import choice
+from re import L
+
+from pkg_resources import WorkingSet
 
 
 def open_and_read_file(file_path):
@@ -11,11 +15,12 @@ def open_and_read_file(file_path):
     """
 
     # your code goes here
+    green_eggs = open(input_path).read()
 
-    return 'Contents of your file as one long string'
+    return green_eggs
 
 
-def make_chains(text_string):
+def make_chains(green_eggs):
     """Take input text as string; return dictionary of Markov chains.
 
     A chain will be a key that consists of a tuple of (word1, word2)
@@ -43,7 +48,24 @@ def make_chains(text_string):
     chains = {}
 
     # your code goes here
-
+    words_list = green_eggs.split()
+    for i in range(len(words_list) - 1):
+        new_list = []
+        key = (words_list[i], words_list[i + 1])
+        if not key in chains:
+            try:
+                new_list.append(words_list[i + 2])
+                chains[key] = new_list
+            except IndexError:
+                pass
+        else:
+            try:
+                new_list = chains[key]
+                new_list.append(words_list[i + 2])
+                chains[key] = new_list
+            except IndexError:
+                pass
+    print(chains)
     return chains
 
 
