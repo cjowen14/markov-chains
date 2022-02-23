@@ -2,7 +2,9 @@
 
 from asyncio import new_event_loop
 from random import choice
+import random
 from re import L
+from more_itertools import first
 
 from pkg_resources import WorkingSet
 
@@ -65,7 +67,6 @@ def make_chains(green_eggs):
                 chains[key] = new_list
             except IndexError:
                 pass
-    print(chains)
     return chains
 
 
@@ -75,7 +76,27 @@ def make_text(chains):
     words = []
 
     # your code goes here
-
+    rand_key = random.randint(0,len(list(chains.items()))-1)
+    new_chain = list(chains.items())[rand_key]
+    key = new_chain[0]
+    words = list(new_chain[0])
+    print(key)
+    rand_value = choice(new_chain[1])
+    words.append(rand_value)
+    key1 = 1
+    key2 = 2
+    while not key == tuple("I,am?".split(",")):
+        try:
+            key = tuple(f"{words[key1]},{words[key2]}".split(","))
+            key1 += 1
+            key2 += 1
+            rand_value = choice(chains[key])
+            words.append(rand_value)
+            print(key)
+        except KeyError:
+            break
+    
+    print(len(words))
     return ' '.join(words)
 
 
